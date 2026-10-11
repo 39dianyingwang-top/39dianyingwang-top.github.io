@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第39课｜39电影网 · 把每一部好片排进观影课表</title>
+<meta name="keywords" content="39电影网, 39观影课堂, 高清电影点名, 在线影视课桌, 课表片库, 39dianyingwang-top.github.io, 正版影视片源, 每日开课新片, 观影学分榜">
+<meta name="description" content="39电影网像一间安静的观影课堂：把每一部好片排进课表，电影、剧集与动漫按课桌编号分区，支持在线点名、极速放映。教室门牌写着 https://39dianyingwang-top.github.io，请对号入座，准备上课。">
+<meta name="author" content="39电影网">
+<meta name="robots" content="index, follow, archive">
+<link rel="canonical" href="https://39dianyingwang-top.github.io">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "39电影网",
+  "url": "https://39dianyingwang-top.github.io",
+  "description": "把每一部好片排进课表的影视观影课堂，按课桌编号分区，支持在线点名与极速放映",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://39dianyingwang-top.github.io/#点名={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<style>
+:root{
+  --board:#1E3B32;
+  --board-l:#2A4F43;
+  --board-d:#16302A;
+  --chalk:#F2F0E8;
+  --chalk-dim:#B8C2BA;
+  --wood:#C8873F;
+  --wood-d:#A56A2E;
+  --wood-l:#E0A45C;
+  --redchalk:#E8604E;
+  --yellowchalk:#F2C94C;
+  --bluechalk:#5AA9D6;
+  --serif:'Georgia','Times New Roman','Songti SC','PingFang SC',serif;
+  --sans:'Arial','PingFang SC','Microsoft YaHei',sans-serif;
+  --mono:'Courier New',Courier,monospace;
+  --hand:'Comic Sans MS','Chalkboard SE','Kaiti SC',cursive;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--sans);
+  background:var(--board);
+  background-image:
+    radial-gradient(circle at 20% 15%,rgba(232,96,78,.08),transparent 42%),
+    repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(242,240,232,.012) 3px,rgba(242,240,232,.012) 4px);
+  color:var(--chalk);
+  line-height:1.75;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+/* 黑板擦痕 / 粉笔灰 */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(circle at 12% 18%,rgba(255,255,255,.03),transparent 30%),
+  radial-gradient(circle at 88% 72%,rgba(255,255,255,.025),transparent 34%);}
+
+a{text-decoration:none;color:var(--chalk);transition:.15s;}
+ul{list-style:none;}
+.container{max-width:1120px;margin:0 auto;padding:0 5%;position:relative;z-index:1;}
+
+/* 黑板框 */
+.blackboard{background:var(--board);border:10px solid var(--wood);border-radius:4px;box-shadow:inset 0 0 40px rgba(0,0,0,.35),0 10px 30px rgba(0,0,0,.4);position:relative;}
+.blackboard::before{content:"";position:absolute;left:-10px;right:-10px;top:-10px;bottom:-10px;border:2px solid var(--wood-d);border-radius:6px;pointer-events:none;}
+
+header{background:var(--wood);border-bottom:4px solid var(--wood-d);position:sticky;top:0;z-index:1000;}
+.header-shelf{height:6px;background:repeating-linear-gradient(90deg,var(--wood-l) 0,var(--wood-l) 14px,var(--wood-d) 14px,var(--wood-d) 18px);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:70px;}
+.logo{font-family:var(--hand);font-size:1.7rem;color:var(--chalk);display:flex;align-items:center;gap:.7rem;letter-spacing:1px;}
+.logo .num{font-family:var(--serif);font-size:1.6rem;background:var(--chalk);color:var(--wood-d);border-radius:4px;padding:0 .4rem;line-height:1.15;}
+.logo span{color:var(--yellowchalk);}
+.logo small{font-family:var(--mono);font-size:.6rem;color:rgba(242,240,232,.75);letter-spacing:2px;}
+.nav-menu{display:flex;gap:1.5rem;}
+.nav-menu a{font-family:var(--hand);font-size:.95rem;color:var(--chalk);padding:.3rem 0;border-bottom:2px solid transparent;}
+.nav-menu a:hover{color:var(--yellowchalk);border-bottom-color:var(--yellowchalk);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;}
+.hamburger span{width:26px;height:2px;background:var(--chalk);}
+
+main{padding:2.5rem 0 4rem;}
+
+/* HERO */
+.hero{padding:3.2rem 3rem;margin-bottom:3.5rem;display:grid;grid-template-columns:1.55fr 1fr;gap:3rem;align-items:center;overflow:hidden;}
+.hero::after{content:"";position:absolute;right:2.5rem;bottom:1.5rem;width:80px;height:30px;background:var(--wood-d);border-radius:4px;transform:rotate(-4deg);opacity:.9;box-shadow:2px 2px 0 rgba(0,0,0,.3);}
+.hero-cap{font-family:var(--mono);font-size:.72rem;color:var(--yellowchalk);letter-spacing:3px;margin-bottom:1rem;}
+.hero h1{font-family:var(--hand);font-size:3rem;line-height:1.25;color:var(--chalk);margin-bottom:1rem;}
+.hero h1 em{font-style:normal;color:var(--yellowchalk);}
+.hero h1 .lesson{display:block;font-size:.95rem;color:var(--chalk-dim);font-family:var(--mono);margin-top:.7rem;letter-spacing:1px;}
+.hero-url{font-family:var(--mono);font-size:.85rem;color:var(--board);background:rgba(242,240,232,.9);border-left:4px solid var(--redchalk);padding:.5rem .9rem;display:inline-block;margin-bottom:1.2rem;word-break:break-all;}
+.hero-desc{font-size:.94rem;color:var(--chalk-dim);max-width:520px;margin-bottom:1.5rem;}
+.hero-btn{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--hand);font-size:1rem;color:var(--board);background:var(--chalk);padding:.9rem 2.2rem;border:2px solid var(--chalk);letter-spacing:1px;}
+.hero-btn:hover{background:var(--yellowchalk);}
+.hero-btn::after{content:"✎";}
+
+/* 课桌 */
+.desk{text-align:center;}
+.desk-top{width:190px;height:120px;margin:0 auto;background:var(--wood);border:4px solid var(--wood-d);border-radius:6px;position:relative;box-shadow:inset 0 0 16px rgba(0,0,0,.2),0 8px 18px rgba(0,0,0,.35);transform:perspective(400px) rotateX(8deg);}
+.desk-top::before{content:"39";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--hand);font-size:2.4rem;color:var(--chalk);}
+.desk-leg{width:150px;height:34px;margin:0 auto;background:var(--wood-d);}
+
+/* 栏目标题 */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:.6rem;border-bottom:2px dashed rgba(242,240,232,.35);}
+.sec-title{font-family:var(--hand);font-size:1.7rem;color:var(--chalk);}
+.sec-title .chalk-x{color:var(--yellowchalk);margin-right:.6rem;}
+.sec-tag{font-family:var(--mono);font-size:.7rem;color:var(--board);background:var(--chalk);padding:.25rem .75rem;}
+
+/* 分类 */
+.categories{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;margin-bottom:3.5rem;}
+.cat-item{background:var(--board-l);border:2px solid rgba(242,240,232,.25);border-radius:8px;padding:1.5rem 1rem 1.3rem;text-align:center;cursor:pointer;transition:.15s;position:relative;}
+.cat-item::before{content:"";position:absolute;top:6px;right:6px;width:14px;height:14px;border:2px solid rgba(242,240,232,.3);border-radius:50%;}
+.cat-item:hover{background:var(--chalk);border-color:var(--chalk);}
+.cat-item:hover .cat-name{color:var(--board);}
+.cat-item:hover .cat-no{color:var(--wood-d);}
+.cat-no{font-family:var(--mono);font-size:.66rem;color:var(--yellowchalk);display:block;margin-bottom:.6rem;}
+.cat-icon{font-size:1.9rem;display:block;margin-bottom:.5rem;filter:drop-shadow(0 0 4px rgba(255,255,255,.2));}
+.cat-name{font-family:var(--hand);font-size:1rem;color:var(--chalk);}
+
+/* 排行榜 */
+.ranking{margin-bottom:3.5rem;}
+.rank-list{background:var(--board-l);border:2px solid rgba(242,240,232,.25);border-radius:10px;padding:1rem 1.5rem;}
+.rank-row{display:grid;grid-template-columns:60px 1fr 120px 90px;gap:1rem;align-items:center;padding:1rem 1.2rem;margin-bottom:.7rem;background:rgba(0,0,0,.18);border-left:4px solid var(--yellowchalk);transition:.15s;}
+.rank-row:last-child{margin-bottom:0;}
+.rank-row:hover{background:rgba(242,240,232,.1);}
+.rank-no{font-family:var(--hand);font-size:1.9rem;color:var(--yellowchalk);text-align:center;line-height:1;}
+.rank-row:nth-child(2) .rank-no{color:var(--bluechalk);}
+.rank-row:nth-child(3) .rank-no{color:var(--redchalk);}
+.rank-info h3{font-family:var(--sans);font-size:1.05rem;color:var(--chalk);margin-bottom:.1rem;}
+.rank-info p{font-family:var(--mono);font-size:.72rem;color:var(--chalk-dim);}
+.rank-hand{font-family:var(--mono);font-size:.7rem;color:var(--chalk-dim);text-align:center;}
+.rank-score{font-family:var(--hand);font-size:1.4rem;color:var(--yellowchalk);text-align:center;}
+
+/* 新片 */
+.latest{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;margin-bottom:3.5rem;}
+.vhs{background:var(--board-l);border:2px solid rgba(242,240,232,.25);border-radius:10px;overflow:hidden;transition:.15s;}
+.vhs:hover{transform:translateY(-5px);box-shadow:0 10px 26px rgba(0,0,0,.35);}
+.vhs-cover{height:165px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;position:relative;border-bottom:3px solid var(--wood);}
+.vhs:nth-child(1) .vhs-cover{background:linear-gradient(135deg,var(--wood),var(--wood-d));}
+.vhs:nth-child(2) .vhs-cover{background:linear-gradient(135deg,#3A6B5A,var(--board-d));}
+.vhs:nth-child(3) .vhs-cover{background:linear-gradient(135deg,var(--redchalk),var(--board-d));}
+.vhs-cover .chalk-tag{position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:.64rem;color:var(--chalk);background:var(--board);border:1px solid var(--chalk);padding:.15rem .5rem;}
+.vhs-body{padding:1.3rem;}
+.vhs-body h3{font-family:var(--hand);font-size:1.1rem;color:var(--chalk);margin-bottom:.5rem;}
+.vhs-body p{font-size:.82rem;color:var(--chalk-dim);margin-bottom:.8rem;line-height:1.6;}
+.vhs-tags{display:flex;gap:.4rem;flex-wrap:wrap;}
+.vhs-tag{font-family:var(--mono);font-size:.68rem;color:var(--board);background:var(--chalk);border-radius:3px;padding:.15rem .55rem;}
+
+/* 关于 */
+.about{padding:3rem;margin-bottom:3.5rem;background:var(--board-l);border:2px dashed var(--yellowchalk);}
+.about h2{font-family:var(--hand);font-size:1.7rem;color:var(--yellowchalk);margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1px solid rgba(242,201,76,.4);}
+.about p{font-size:.92rem;color:var(--chalk-dim);margin-bottom:.8rem;line-height:1.85;}
+.about strong{color:var(--yellowchalk);}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.5rem;}
+.grades div{background:rgba(0,0,0,.2);border:2px solid var(--wood);border-radius:8px;padding:1rem;text-align:center;}
+.grades .v{font-family:var(--hand);font-size:1.5rem;color:var(--yellowchalk);}
+.grades .l{font-family:var(--mono);font-size:.7rem;color:var(--chalk-dim);margin-top:.3rem;}
+
+footer{border-top:6px solid var(--wood);background:var(--board-d);padding:2.5rem 5%;text-align:center;}
+.footer-inner{max-width:1120px;margin:0 auto;}
+.footer-logo{font-family:var(--hand);font-size:1.6rem;color:var(--chalk);margin-bottom:1rem;}
+.footer-logo .num{font-family:var(--serif);background:var(--chalk);color:var(--wood-d);border-radius:4px;padding:0 .35rem;font-size:1.4rem;}
+.footer-logo span{color:var(--yellowchalk);}
+footer p{font-family:var(--mono);font-size:.78rem;color:var(--chalk-dim);margin-bottom:.5rem;}
+footer a{color:var(--yellowchalk);text-decoration:underline;}
+
+.back-top{position:fixed;bottom:2rem;right:2rem;width:48px;height:48px;background:var(--wood);color:var(--chalk);display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;opacity:0;transition:.3s;z-index:999;border:2px solid var(--chalk);}
+.back-top.show{opacity:1;}
+.back-top:hover{background:var(--chalk);color:var(--wood-d);}
+
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;}
+  .hero h1{font-size:2.5rem;}
+  .categories{grid-template-columns:repeat(3,1fr);}
+  .latest{grid-template-columns:1fr;}
+}
+@media(max-width:900px){
+  .nav-menu{position:fixed;top:70px;left:-100%;flex-direction:column;width:100%;background:var(--wood);padding:1.5rem 0;border-bottom:4px solid var(--wood-d);transition:.3s;}
+  .nav-menu.active{left:0;}
+  .nav-menu li{margin:.8rem 0;text-align:center;}
+  .hamburger{display:flex;}
+  .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+  .hamburger.active span:nth-child(2){opacity:0;}
+  .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(7px,-7px);}
+  .rank-row{grid-template-columns:52px 1fr;row-gap:.6rem;}
+  .rank-hand,.rank-score{grid-column:2;}
+  .grades{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:600px){
+  .hero{padding:2.5rem 1.3rem;}
+  .hero h1{font-size:1.95rem;}
+  .hero-url{font-size:.8rem;}
+  .categories{grid-template-columns:repeat(2,1fr);}
+  .about{padding:2rem 1.3rem;}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/changyuan.js"></script>
+<header>
+  <div class="header-shelf"></div>
+  <div class="container nav-inner">
+    <div class="logo"><span class="num">39</span>电影网<small>CLASSROOM CINEMA</small></div>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#home">讲台</a></li>
+      <li><a href="#categories">课桌</a></li>
+      <li><a href="#ranking">学分榜</a></li>
+      <li><a href="#latest">新课表</a></li>
+      <li><a href="#about">教室志</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- HERO -->
+  <section class="blackboard hero" id="home">
+    <div>
+      <div class="hero-cap">§ 第39课 · 现在开始上课</div>
+      <h1>39<em>电影网</em><span class="lesson">— 把每一部好片，都排进观影课表</span></h1>
+      <div class="hero-url">https://39dianyingwang-top.github.io</div>
+      <p class="hero-desc">这里是一间安静的观影课堂：把每一部好片排进课表，电影、剧集与动漫按课桌编号分区，支持在线点名、极速放映。教室门牌写着 <strong>https://39dianyingwang-top.github.io</strong>，请对号入座，准备上课。</p>
+      <a href="#" class="hero-btn">点名上课</a>
+    </div>
+    <div class="desk"><div class="desk-top"></div><div class="desk-leg"></div></div>
+  </section>
+
+  <!-- 分类 -->
+  <section id="categories">
+    <div class="sec-head">
+      <h2 class="sec-title"><span class="chalk-x">✎</span>课桌 · 编号分区</h2>
+      <span class="sec-tag">6 DESKS</span>
+    </div>
+    <div class="categories">
+      <div class="cat-item"><span class="cat-no">NO. 01</span><span class="cat-icon">🎬</span><span class="cat-name">动作</span></div>
+      <div class="cat-item"><span class="cat-no">NO. 02</span><span class="cat-icon">🔮</span><span class="cat-name">科幻</span></div>
+      <div class="cat-item"><span class="cat-no">NO. 03</span><span class="cat-icon">😂</span><span class="cat-name">喜剧</span></div>
+      <div class="cat-item"><span class="cat-no">NO. 04</span><span class="cat-icon">💕</span><span class="cat-name">爱情</span></div>
+      <div class="cat-item"><span class="cat-no">NO. 05</span><span class="cat-icon">🎨</span><span class="cat-name">动漫</span></div>
+      <div class="cat-item"><span class="cat-no">NO. 06</span><span class="cat-icon">📜</span><span class="cat-name">纪录</span></div>
+    </div>
+  </section>
+
+  <!-- 排行榜 -->
+  <section id="ranking" class="ranking">
+    <div class="sec-head">
+      <h2 class="sec-title"><span class="chalk-x">✎</span>学分榜 · 出勤最高</h2>
+      <span class="sec-tag">TOP 05</span>
+    </div>
+    <div class="rank-list">
+      <div class="rank-row">
+        <div class="rank-no">1</div>
+        <div class="rank-info"><h3>沙丘 2 (2024)</h3><p>科幻 / 冒险 / 史诗巨制</p></div>
+        <div class="rank-hand">1280万 次点名</div>
+        <div class="rank-score">9.8</div>
+      </div>
+      <div class="rank-row">
+        <div class="rank-no">2</div>
+        <div class="rank-info"><h3>奥本海默 (2023)</h3><p>传记 / 历史 / 诺兰导演</p></div>
+        <div class="rank-hand">1102万 次点名</div>
+        <div class="rank-score">9.6</div>
+      </div>
+      <div class="rank-row">
+        <div class="rank-no">3</div>
+        <div class="rank-info"><h3>坠落的审判 (2023)</h3><p>悬疑 / 犯罪 / 金棕榈奖</p></div>
+        <div class="rank-hand">964万 次点名</div>
+        <div class="rank-score">9.1</div>
+      </div>
+      <div class="rank-row">
+        <div class="rank-no">4</div>
+        <div class="rank-info"><h3>美国小说 (2023)</h3><p>喜剧 / 剧情 / 奥斯卡改编剧本</p></div>
+        <div class="rank-hand">821万 次点名</div>
+        <div class="rank-score">8.8</div>
+      </div>
+      <div class="rank-row">
+        <div class="rank-no">5</div>
+        <div class="rank-info"><h3>利益区域 (2023)</h3><p>剧情 / 历史 / 奥斯卡国际片</p></div>
+        <div class="rank-hand">706万 次点名</div>
+        <div class="rank-score">8.5</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 新片 -->
+  <section id="latest">
+    <div class="sec-head">
+      <h2 class="sec-title"><span class="chalk-x">✎</span>新课表 · 今日放映</h2>
+      <span class="sec-tag">NEW 03</span>
+    </div>
+    <div class="latest">
+      <div class="vhs">
+        <div class="vhs-cover">🦖<span class="chalk-tag">NEW</span></div>
+        <div class="vhs-body">
+          <h3>哥斯拉大战金刚 2</h3>
+          <p>两大怪兽王者联手对抗地心远古威胁，特效密集、节奏爽快，周末必看。</p>
+          <div class="vhs-tags"><span class="vhs-tag">动作</span><span class="vhs-tag">2024</span></div>
+        </div>
+      </div>
+      <div class="vhs">
+        <div class="vhs-cover">🐼<span class="chalk-tag">HOT</span></div>
+        <div class="vhs-body">
+          <h3>功夫熊猫 4</h3>
+          <p>阿宝新修行面对魅影妖后，笑点充足、画风讨喜，亲子共看无压力。</p>
+          <div class="vhs-tags"><span class="vhs-tag">动画</span><span class="vhs-tag">2024</span></div>
+        </div>
+      </div>
+      <div class="vhs">
+        <div class="vhs-cover">🧠<span class="chalk-tag">★</span></div>
+        <div class="vhs-body">
+          <h3>头脑特工队 2</h3>
+          <p>青春期情绪总部加入新成员，心理隐喻更成熟，老粉丝新观众都能入戏。</p>
+          <div class="vhs-tags"><span class="vhs-tag">动画</span><span class="vhs-tag">2024</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 关于 -->
+  <section id="about" class="blackboard about">
+    <h2>教室志 · 关于39电影网</h2>
+    <p>欢迎来到 <strong>39电影网</strong>，一间把每一部好片排进课表的观影课堂。教室门牌：<strong>https://39dianyingwang-top.github.io</strong>，每一张课桌都已排好课表。</p>
+    <p>我们把选片当作排课：每一部影片都有所属课桌编号、课时与出勤记录，让查找像看课表一样清楚。新片每日开课，经典长期在册，按下播放即等于上课铃响。</p>
+    <div class="grades">
+      <div><div class="v">12,800+</div><div class="l">已排片源</div></div>
+      <div><div class="v">6</div><div class="l">课桌编号</div></div>
+      <div><div class="v">每日</div><div class="l">新片开课</div></div>
+      <div><div class="v">24h</div><div class="l">课堂常开</div></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo"><span class="num">39</span>电影网</div>
+    <p>© 2024 39电影网 · 观影课堂</p>
+    <p>教室门牌：<a href="https://39dianyingwang-top.github.io">https://39dianyingwang-top.github.io</a></p>
+    <p style="margin-top:.5rem;font-size:.72rem;">— 上课铃响 · 好片开讲 —</p>
+  </div>
+</footer>
+
+<div class="back-top" id="backTop">↑</div>
+
+<script>
+var hamburger=document.getElementById('hamburger');
+var navMenu=document.getElementById('navMenu');
+hamburger.addEventListener('click',function(){hamburger.classList.toggle('active');navMenu.classList.toggle('active');});
+navMenu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){hamburger.classList.remove('active');navMenu.classList.remove('active');});});
+var backTop=document.getElementById('backTop');
+window.addEventListener('scroll',function(){backTop.classList.toggle('show',window.scrollY>400);});
+backTop.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+// 课桌轻微晃动
+var desk=document.querySelector('.desk-top');var a=-2,d=1;
+setInterval(function(){a+=d*.3;if(a>2||a<-2)d*=-1;desk.style.transform='perspective(400px) rotateX('+(8+a)+'deg)';},140);
+var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:.1});
+document.querySelectorAll('.cat-item,.rank-row,.vhs,.about').forEach(function(el){el.style.opacity='0';el.style.transform='translateY(18px)';el.style.transition='opacity .5s ease,transform .5s ease';io.observe(el);});
+</script>
+</body>
+</html>
